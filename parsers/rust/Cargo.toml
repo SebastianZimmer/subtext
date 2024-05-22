@@ -1,6 +1,0 @@
-[workspace]
-members = [
-  "subtext",
-]
-# See: https://github.com/rust-lang/rust/issues/90148#issuecomment-949194352
-resolver = "2"

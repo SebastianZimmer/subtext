@@ -1,11 +1,9 @@
 # Subtext guide
 
-- **Status**: Draft
-- **Authors**: Gordon Brander
+- **Version**: 1.0.0-neno
+- **Authors**: Gordon Brander, polyrainbow
 
 Subtext is markup for note-taking. It aims to add just the tiniest bit of structure on top of plain text, to make notes more useful.
-
-**Warning**: Subtext is an experiment, NOT a finished language proposal. We are actively putting it through its paces using practical prototypes. It may change in radical and breaking ways between now and a first stable release.
 
 ## Introduction
 
@@ -13,7 +11,7 @@ Subtext is a text-based, line-oriented hypertext format, designed for note-takin
 
 Subtext markup is made up of ordinary lines of text, which are interpreted as a list of blocks. Lines that are prefixed with magic "sigil" characters are treated as special blocks. Lines without sigils are treated as text blocks. Empty lines are ignored. Here's a quick sample:
 
-```
+````
 # Heading
 
 Plain text.
@@ -25,8 +23,16 @@ Plain text.
 
 URLs like https://example.com are automatically linked.
 
-You can also link to local pages using short /slashlinks.
+You can also link to local pages using short /slashlinks or [[Wikilinks]].
+
 ```
+fn this_is_a_code_block() {
+  return;
+}
+```
+
+$this-is-a-key value pair
+````
 
 Subtext is barely there—just the tiniest bit of formatting on top of plain text. More importantly, Subtext adds structure to plain text so you can build tools to do more with it. Things like:
 
@@ -100,21 +106,16 @@ The space after the `>` is optional, but it's nice to include it for readability
 
 ## Links
 
-Subtext will detect any http URLs, and automatically link them.
+Subtext will detect any http(s) URLs, and automatically link them.
 
 ```
 Links like https://example.com will be automatically linked.
 ```
 
-Note you must include the protocol (the `http://` bit) for Subtext to sniff out the URL.
+Note you must include the protocol (the `http://` or `https://` bit) for Subtext
+to sniff out the URL.
 
-Subtext parsers can automatically detect `http` links this way, but not every protocol will work. For exotic protocols wrap the URL in `<` `>` angle brackets.
-
-```
-Link unusual URLs like <doi:10.1000/182> by wrapping them in angle brackets. 
-
-This works for any kind of URL <https://example.com>.
-```
+Subtext parsers can automatically detect `http` links this way, but not every protocol will work.
 
 ## Slashlinks
 
@@ -143,3 +144,48 @@ Slashlinks can also include hierarchical sub-parts, just like a URL. This can be
 /vaclav-smil/energy-and-civilization
 /climate/carbon-sinks
 ```
+
+## Key-value pairs
+
+A key-value block is a `$` followed by any alphanumeric string, optionally followed by at
+least one whitespace character and a value (any kind of string).
+
+Example key-value blocks:
+```
+$check-back-on 1st of January 2050
+$location   [[Berlin]]
+$liked
+```
+
+Key, described as a regular expression:
+
+```
+/[\p{L}\p{M}\d\-_]+/u
+```
+
+Key-value pairs are a fundamental primitive with a wide range of potential use-cases for tooling. Like any other type of block, key-value blocks could be gathered by key into lists, concatenated, or collected using a first- or last-key-wins to get simple key/value data.
+
+- You could execute queries such as: “list all questions (`Q:` blocks) in my notes”.
+- You could transform a collection of notes into a sparse table by treating each note as a row, and treating keys as columns. Denser tabular data can be had by filtering notes to only include those with a particular set of keys, and then concatenating, JSON-encoding, or dropping duplicate keys. Tada! CSV.
+- You could include headmatter in the body of a note. This can make it easier to integrate notes with static site generators, or other tools.
+
+## Code blocks
+
+Code blocks are different to all other blocks in that they consist of more than
+one line.
+
+Example code blocks:
+
+````
+```
+fn this_is_a_code_block() {
+  return;
+}
+```
+
+```javascript
+function thisIsAnotherCodeBlock() {
+  return;
+}
+```
+````

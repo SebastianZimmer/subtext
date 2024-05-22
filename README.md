@@ -1,13 +1,13 @@
 # Subtext: markup for note-taking
 
+_This Subtext specification is a fork of the original one created by Gordon Brander.
+This fork has been modified to make it a perfect fit for the note-taking app
+[NENO](https://polyrainbow.github.io/neno)._
+
 Subtext is a text-based, block-oriented hypertext format. It is designed with note-taking in mind. It has a simple, people-friendly syntax with a passing resemblance to Markdown.
 
 - [User guide](guide.md)
 - [Speculative Specification](specification.md)
-
-We're experimenting with Subtext as part of [Subconscious](https://subconscious.substack.com/), a new tool for thought.
-
-**Warning to implementors**: Subtext is currently experimental status.  We'll be spending some time living with Subtext and building experimental tools on top of it before committing to anything. The language design is just a hypothesis! It might undergo radical breaking changes! This is work in progress, and shared in the spirit of working with the garage door open.
 
 ## A bit of Subtext
 
@@ -15,7 +15,7 @@ Subtext is a text-based, line-oriented hypertext format, designed for note-takin
 
 Subtext markup is made up of ordinary lines of text, which are interpreted as a list of blocks. Lines that are prefixed with magic "sigil" characters are treated as special blocks. Lines without sigils are treated as text blocks. Empty lines are ignored. Here's a quick sample:
 
-```
+````
 # Heading
 
 Plain text.
@@ -27,8 +27,16 @@ Plain text.
 
 URLs like https://example.com are automatically linked.
 
-You can also link to local pages using short /slashlinks.
+You can also link to local pages using short /slashlinks or [[Wikilinks]].
+
 ```
+fn this_is_a_code_block() {
+  return;
+}
+```
+
+$this-is-a-key value pair
+````
 
 ## Subtext is for notes
 
